@@ -18,7 +18,10 @@ func main() {
 	mux.HandleFunc("/status", handlers.StatusHandler)
 	mux.HandleFunc("/restart", handlers.RestartHandler)
 
+	wrappedMux := logger.NewLogger(mux)
+
 	flag.StringVar(&port, "port", ":3012", "Port of server")
-	logger.Log(fmt.Sprintf("Server is starting on port %s", port))
-	log.Fatal(http.ListenAndServe(port, mux))
+	log.Println(fmt.Sprintf("Server is starting on port %s", port))
+
+	log.Fatal(http.ListenAndServe(port, wrappedMux))
 }
