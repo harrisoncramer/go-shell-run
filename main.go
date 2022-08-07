@@ -14,7 +14,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/status", handlers.StatusHandler)
-	mux.HandleFunc("/run", handlers.RunHandler)
+	mux.HandleFunc("/restart", handlers.RestartHandler)
 
 	wrappedMux := logger.NewLogger(mux)
 

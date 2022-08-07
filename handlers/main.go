@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os/exec"
+	"strings"
 )
 
 func StatusHandler(w http.ResponseWriter, req *http.Request) {
@@ -14,19 +16,39 @@ func StatusHandler(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, `{"alive": true }`)
 }
 
-func RunHandler(w http.ResponseWriter, req *http.Request) {
-	cmd := exec.Command("ls", "-la")
+func runJob(command string, argString string) {
+
+	args := strings.Split(argString, " ")
+	cmd := exec.Command(command, args...)
 
 	stdout, _ := cmd.StdoutPipe()
-	cmd.Start()
 
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanLines)
+	stderr, _ := cmd.StderrPipe()
+	if err := cmd.Start(); err != nil {
+		log.Fatal(err)
+	}
+
+	scanner := bufio.NewScanner(stderr)
 	for scanner.Scan() {
-		m := scanner.Text()
+		fmt.Println(scanner.Text())
+	}
+
+	outputScanner := bufio.NewScanner(stdout)
+	outputScanner.Split(bufio.ScanLines)
+	for outputScanner.Scan() {
+		m := outputScanner.Text()
 		fmt.Println(m)
 	}
 
 	cmd.Wait()
+}
 
+func RestartHandler(w http.ResponseWriter, req *http.Request) {
+
+	log.Println("Restarting production server...")
+	runJob("docker-compose", "-f docker-compose.yml down --volumes")
+	runJob("docker-compose", "-f docker-compose.yml pull")
+	runJob("docker-compose", "-f docker-compose.yml up -d")
+	runJob("docker", "system prune -a -f")
+	log.Println("Production server rebooted!")
 }
