@@ -15,12 +15,12 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/status", handlers.StatusHandler)
-	mux.HandleFunc("/restart", handlers.RestartHandler)
+	mux.HandleFunc("/jobs", handlers.JobHandler)
 
 	wrappedMux := middleware.CheckToken(middleware.NewLogger(mux))
 
 	port := flag.String("port", "3012", "Port of server")
-	token := flag.String("token", "secret", "Secret required to run /restart and other routes")
+	token := flag.String("token", "secret", "Secret required to run /jobs and other routes")
 
 	flag.Parse()
 

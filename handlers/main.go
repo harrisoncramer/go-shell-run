@@ -17,7 +17,7 @@ type Jobs struct {
 	Jobs []string
 }
 
-func RestartHandler(w http.ResponseWriter, req *http.Request) {
+func JobHandler(w http.ResponseWriter, req *http.Request) {
 	if state.Processing {
 		http.Error(w, "Jobs already processing", 503)
 		return
