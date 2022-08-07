@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/harrisoncramer/golang-webhook/state"
+	"github.com/harrisoncramer/go-shell-run/state"
 	"io"
 	"net/http"
 )

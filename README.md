@@ -10,14 +10,14 @@ Compile the binary with `go build` for your operating system of choice. Then sen
 
 ```terminal
 $ GOOS=linux GOARCH=amd64 go build .
-$ scp ./golang-webhook ubuntu@12.345.67.89:/home/harrison
+$ scp ./go-shell-run ubuntu@12.345.67.89:/home/harrison
 ```
 
 Run the binary on an open port of your choosing and pass it your API key:
 
 ```terminal
 $ ssh ubuntu@12.345.67.89
-$ ./golang-webhook --port=3012 --token=abc
+$ ./go-shell-run --port=3012 --token=abc
 ```
 
 You can now pass arbitrary shell commands to the server by POSTing them to the `/jobs` endpoint.

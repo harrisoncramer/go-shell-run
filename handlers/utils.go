@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/harrisoncramer/golang-webhook/state"
+	"github.com/harrisoncramer/go-shell-run/state"
 )
 
 func runJob(command string, args []string) {

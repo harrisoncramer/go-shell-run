@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/harrisoncramer/golang-webhook/handlers"
-	"github.com/harrisoncramer/golang-webhook/middleware"
+	"github.com/harrisoncramer/go-shell-run/handlers"
+	"github.com/harrisoncramer/go-shell-run/middleware"
 )
 
 func main() {
