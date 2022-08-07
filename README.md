@@ -18,14 +18,14 @@ Run the binary on an open port of your choosing and pass it your API key:
 
 ```terminal
 $ ssh ubuntu@12.345.67.89
-$ ./go-shell-run --port=3012 --token=abc
+$ ./go-shell-run --port=3012 --token=89fnoq8yeho8h1y3o
 ```
 
 You can now pass arbitrary shell commands to the server by POSTing them to the `/jobs` endpoint.
 
 ```
-$ curl --location --request POST 'http://12.345.67.89:3012/status' \
---header 'token: abc' \
+$ curl --location --request POST 'http://12.345.67.89:3012/jobs' \
+--header 'token: 89fnoq8yeho8h1y3o' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "jobs": [
