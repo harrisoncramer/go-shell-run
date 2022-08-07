@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"bytes"
+	"bufio"
+	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os/exec"
 )
@@ -15,17 +15,18 @@ func StatusHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func RunHandler(w http.ResponseWriter, req *http.Request) {
-	cmd := exec.Command("ls")
+	cmd := exec.Command("ls", "-la")
 
-	/* Send output to buffer */
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	stdout, _ := cmd.StdoutPipe()
+	cmd.Start()
 
-	err := cmd.Run()
-
-	if err != nil {
-		log.Fatal(err)
+	scanner := bufio.NewScanner(stdout)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan() {
+		m := scanner.Text()
+		fmt.Println(m)
 	}
 
-	log.Println(out.String())
+	cmd.Wait()
+
 }
