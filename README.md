@@ -5,6 +5,13 @@ execution of shell commands.
 
 It was originally designed to automate deployment workflows via webhooks.
 
+## Security
+
+This package relies solely on the passage of a specific header called `token` to
+validate inbound requests. You likely will also want to firewall the port you
+choose to open this server on, since you'll be allowing shell access to your
+machine. Be careful!
+
 ## Installation and Use
 
 Compile the binary with `go build` for your operating system of choice. Then send the binary to your server:
@@ -62,4 +69,10 @@ $ sudo systemctl status go-shell-run.service
         CPU: 5ms
      CGroup: /system.slice/go-shell-run.service
              └─57135 /home/harrison/c2c-visualization/go-shell-run --port=3012 --token=s72870h!b98f0uA(
+```
+
+You can follow the logs with `journalctl` like this:
+
+```terminal
+sudo journalctl -u go-shell-run.service --follow
 ```
