@@ -5,7 +5,7 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 Environment="ARGS=%I"
-ExecStart=/home/harrison/c2c-visualization
+WorkingDirectory=/home/harrison/c2c-visualization
 ExecStart=/home/harrison/c2c-visualization/go-shell-run $ARGS
 Restart=always
 RestartSec=5
