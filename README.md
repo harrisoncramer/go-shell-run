@@ -7,9 +7,9 @@ It was originally designed to automate deployment workflows via webhooks.
 
 ## Security
 
-This package relies solely on the passage of a specific header called `token` to
-validate inbound requests. You likely will also want to firewall the port you
-choose to open this server on, since you'll be allowing shell access to your
+In order to validate an inbound request, this server checks that a specific header called `token` 
+matches what you set in your server configuration. You may also want to firewall the port you
+choose only for specfic IP addresses, since this server enables shell access to your
 machine. Be careful!
 
 ## Installation and Use
