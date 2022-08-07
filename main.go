@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/harrisoncramer/golang-webhook/handlers"
-	"github.com/harrisoncramer/golang-webhook/logger"
+	"github.com/harrisoncramer/golang-webhook/middleware"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	mux.HandleFunc("/status", handlers.StatusHandler)
 	mux.HandleFunc("/restart", handlers.RestartHandler)
 
-	wrappedMux := logger.NewLogger(mux)
+	wrappedMux := middleware.CheckToken(middleware.NewLogger(mux))
 
 	port := flag.String("port", "3012", "Port of server")
 
