@@ -1,0 +1,13 @@
+[Unit]
+Description=Simple Golang HTTP server designed to allow for the remote execution of shell commands.
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=simple
+WorkingDirectory=/path/to/your/working-directory
+ExecStart=/path/to/your/binary/go-shell-run --port=3012 --token=72870h!b98f0uA(
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

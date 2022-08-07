@@ -1,10 +1,11 @@
-# ShellRun
+# GoShellRun 🐚
 
-This repository is a simple Golang HTTP server designed to allow for the execution of shell commands remotely.
+This repository is a simple Golang HTTP server designed to allow for the remote
+execution of shell commands.
 
-It's original use-case was automating deployment workflows via webhooks.
+It was originally designed to automate deployment workflows via webhooks.
 
-# Installation and Use
+## Installation and Use
 
 Compile the binary with `go build` for your operating system of choice. Then send the binary to your server:
 
@@ -36,3 +37,12 @@ $ curl --location --request POST 'http://12.345.67.89:3012/status' \
 
 If the server is already executing the jobs it'll return a 503, if not, you'll
 recieve a JSON response.
+
+## Running as a Service
+
+The `/resources` folder contains a service manifest that you could use to turn this
+binary into a service controlled by `systemctl`, so that the server is
+persistent even across command failures.
+
+Copy this file to your `/etc/systemd/system` directory and restart your system
+manager.
