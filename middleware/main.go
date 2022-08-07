@@ -34,9 +34,10 @@ func (tc *TokenChecker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	header := r.Header.Get(tc.headerName)
 	if header != os.Getenv("SECRET_TOKEN") {
 		http.Error(w, "That token is invalid.", http.StatusUnauthorized)
-	} else {
-		tc.handler.ServeHTTP(w, r)
+		return
 	}
+
+	tc.handler.ServeHTTP(w, r)
 }
 
 func CheckToken(handlerToWrap http.Handler) *TokenChecker {

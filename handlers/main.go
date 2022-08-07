@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -16,9 +17,8 @@ func StatusHandler(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, `{"alive": true }`)
 }
 
-func runJob(command string, argString string) {
+func runJob(command string, args []string) {
 
-	args := strings.Split(argString, " ")
 	cmd := exec.Command(command, args...)
 
 	stdout, _ := cmd.StdoutPipe()
@@ -43,12 +43,23 @@ func runJob(command string, argString string) {
 	cmd.Wait()
 }
 
+type Jobs struct {
+	Jobs []string
+}
+
 func RestartHandler(w http.ResponseWriter, req *http.Request) {
 
-	log.Println("Restarting production server...")
-	runJob("docker-compose", "-f docker-compose.yml down --volumes")
-	runJob("docker-compose", "-f docker-compose.yml pull")
-	runJob("docker-compose", "-f docker-compose.yml up -d")
-	runJob("docker", "system prune -a -f")
-	log.Println("Production server rebooted!")
+	var jobs Jobs
+
+	err := json.NewDecoder(req.Body).Decode(&jobs)
+	if err != nil {
+		http.Error(w, "Must provide jobs.", http.StatusUnauthorized)
+		return
+	}
+
+	log.Println(jobs.Jobs)
+	for i := 0; i < len(jobs.Jobs); i++ {
+		values := strings.Split(jobs.Jobs[i], " ")
+		runJob(values[0], values[1:])
+	}
 }
