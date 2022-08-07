@@ -6,6 +6,8 @@ import (
 	"log"
 	"os/exec"
 	"strings"
+
+	"github.com/harrisoncramer/golang-webhook/state"
 )
 
 func runJob(command string, args []string) {
@@ -39,4 +41,7 @@ func RunJobs(jobs []string) {
 		values := strings.Split(jobs[i], " ")
 		runJob(values[0], values[1:])
 	}
+
+	state.Processing = false
+
 }

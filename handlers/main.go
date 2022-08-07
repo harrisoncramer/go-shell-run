@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/harrisoncramer/golang-webhook/state"
 	"io"
 	"net/http"
 )
@@ -17,6 +18,12 @@ type Jobs struct {
 }
 
 func RestartHandler(w http.ResponseWriter, req *http.Request) {
+	if state.Processing {
+		http.Error(w, "Jobs already processing", 503)
+		return
+	}
+
+	state.Processing = true
 
 	var jobs Jobs
 
@@ -27,6 +34,7 @@ func RestartHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	go RunJobs(jobs.Jobs)
+
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	io.WriteString(w, `{"running": true }`)
