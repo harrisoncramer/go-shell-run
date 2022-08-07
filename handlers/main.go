@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"bytes"
 	"io"
+	"log"
 	"net/http"
+	"os/exec"
 )
 
 func StatusHandler(w http.ResponseWriter, req *http.Request) {
@@ -11,5 +14,18 @@ func StatusHandler(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, `{"alive": true }`)
 }
 
-func RestartHandler(w http.ResponseWriter, req *http.Request) {
+func RunHandler(w http.ResponseWriter, req *http.Request) {
+	cmd := exec.Command("ls")
+
+	/* Send output to buffer */
+	var out bytes.Buffer
+	cmd.Stdout = &out
+
+	err := cmd.Run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println(out.String())
 }
