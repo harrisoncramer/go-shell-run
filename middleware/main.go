@@ -32,9 +32,11 @@ type TokenChecker struct {
 
 func (tc *TokenChecker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	header := r.Header.Get(tc.headerName)
-	log.Println(header)
-	// http.Error(w, "That token is invalid.", http.StatusUnauthorized)
-	tc.handler.ServeHTTP(w, r)
+	if header != os.Getenv("SECRET_TOKEN") {
+		http.Error(w, "That token is invalid.", http.StatusUnauthorized)
+	} else {
+		tc.handler.ServeHTTP(w, r)
+	}
 }
 
 func CheckToken(handlerToWrap http.Handler) *TokenChecker {
