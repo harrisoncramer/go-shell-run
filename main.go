@@ -10,8 +10,6 @@ import (
 	"github.com/harrisoncramer/golang-webhook/logger"
 )
 
-var port string
-
 func main() {
 
 	mux := http.NewServeMux()
@@ -20,8 +18,13 @@ func main() {
 
 	wrappedMux := logger.NewLogger(mux)
 
-	flag.StringVar(&port, "port", ":3012", "Port of server")
-	log.Println(fmt.Sprintf("Server is starting on port %s", port))
+	port := flag.String("port", "3012", "Port of server")
 
-	log.Fatal(http.ListenAndServe(port, wrappedMux))
+	flag.Parse()
+
+	log.Println("port", *port)
+
+	log.Println(fmt.Sprintf("Server is starting on port %s", *port))
+
+	log.Fatal(http.ListenAndServe(":"+*port, wrappedMux))
 }
