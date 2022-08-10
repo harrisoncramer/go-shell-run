@@ -3,7 +3,9 @@
 This repository is a simple Golang HTTP server designed to allow for the remote
 execution of shell commands.
 
-It was originally designed to automate deployment workflows via webhooks.
+It was originally designed to automate deployment workflows via webhooks. 
+
+NOTE: This is an insecure approach because the token is not encrypted, and is mainly for demonstration purposes. If you need something like this look into just running your commands with SSH or via Puppet if you need something more robust.
 
 ## Security
 
