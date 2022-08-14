@@ -10,6 +10,11 @@ import (
 	"github.com/harrisoncramer/go-shell-run/state"
 )
 
+func PrintValue(str string) int {
+	fmt.Println(str)
+	return 1
+}
+
 func runJob(command string, args []string) {
 
 	cmd := exec.Command(command, args...)
