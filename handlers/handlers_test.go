@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/harrisoncramer/go-shell-run/state"
 )
 
 func TestStatusHandler(t *testing.T) {
@@ -66,6 +68,7 @@ func TestJobHandler(t *testing.T) {
 		t.Errorf("handler returned unexpected body: got %v want %v",
 			rr.Body.String(), expected)
 	}
+	state.Processing = false
 }
 
 func TestJobHandlerNoJobs(t *testing.T) {
