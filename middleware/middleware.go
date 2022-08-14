@@ -13,8 +13,6 @@ type Logger struct {
 	handler http.Handler
 }
 
-/* Define a ServeHTTP method on the Middleware struct so this method is called
-first, which then calls the ServeHTTP method on the wrapped struct (l.handler.ServeHTTP) */
 func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	l.handler.ServeHTTP(w, r)
